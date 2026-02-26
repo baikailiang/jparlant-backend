@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jparlant.mapper.IntentStepMapper">
+
+    <resultMap id="BaseResultMap" type="com.jparlant.entity.IntentStep">
+        <id column="id" property="id"/>
+        <result column="intent_id" property="intentId"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="belong_to_phase" property="belongToPhase"/>
+        <result column="priority" property="priority"/>
+        <result column="step_type" property="stepType"/>
+        <result column="prompt" property="prompt"/>
+        <result column="expected_inputs_json" property="expectedInputsJson"/>
+        <result column="validation_json" property="validationJson"/>
+        <result column="dependencies" property="dependencies"/>
+        <result column="can_skip" property="canSkip"/>
+        <result column="skip_to_prompt" property="skipToPrompt"/>
+        <result column="ocr_action" property="ocrAction"/>
+        <result column="core_actions_json" property="coreActionsJson"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM intent_step ORDER BY priority ASC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM intent_step WHERE id = #{id}
+    </select>
+
+    <select id="selectByIntentId" resultMap="BaseResultMap">
+        SELECT * FROM intent_step WHERE intent_id = #{intentId} ORDER BY priority ASC
+    </select>
+
+    <insert id="insert" parameterType="com.jparlant.entity.IntentStep" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO intent_step (
+            intent_id, name, description, belong_to_phase, priority, step_type,
+            prompt, expected_inputs_json, validation_json, dependencies, can_skip,
+            skip_to_prompt, core_actions_json, ocr_action
+        )
+        VALUES (
+            #{intentId}, #{name}, #{description}, #{belongToPhase}, #{priority}, #{stepType},
+            #{prompt}, #{expectedInputsJson}, #{validationJson}, #{dependencies}, #{canSkip},
+            #{skipToPrompt}, #{coreActionsJson}, #{ocrAction}
+        )
+    </insert>
+
+    <update id="updateById" parameterType="com.jparlant.entity.IntentStep">
+        UPDATE intent_step
+        SET intent_id = #{intentId},
+            name = #{name},
+            description = #{description},
+            belong_to_phase = #{belongToPhase},
+            priority = #{priority},
+            step_type = #{stepType},
+            prompt = #{prompt},
+            expected_inputs_json = #{expectedInputsJson},
+            validation_json = #{validationJson},
+            dependencies = #{dependencies},
+            can_skip = #{canSkip},
+            skip_to_prompt = #{skipToPrompt},
+            core_actions_json = #{coreActionsJson},
+            ocr_action = #{ocrAction}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM intent_step WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByIntentId">
+        DELETE FROM intent_step WHERE intent_id = #{intentId}
+    </delete>
+
+
+</mapper>

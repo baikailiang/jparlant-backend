@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jparlant.mapper.AgentMapper">
+
+    <resultMap id="BaseResultMap" type="com.jparlant.entity.Agent">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="instructions" property="instructions"/>
+        <result column="description" property="description"/>
+        <result column="keywords" property="keywords"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM agents ORDER BY created_at DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM agents WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.jparlant.entity.Agent" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO agents (name, instructions, description, keywords, status, created_at, updated_at)
+        VALUES (#{name}, #{instructions}, #{description}, #{keywords}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="updateById" parameterType="com.jparlant.entity.Agent">
+        UPDATE agents
+        SET name = #{name},
+            instructions = #{instructions},
+            description = #{description},
+            keywords = #{keywords},
+            status = #{status},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE agents SET status=#{status} WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE agents SET status=0 WHERE id = #{id}
+    </delete>
+
+</mapper>

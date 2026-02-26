@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jparlant.mapper.FlowVariableMapper">
+
+    <insert id="insert" parameterType="com.jparlant.entity.FlowVariable" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO flow_variable (intent_id, parent_id, name, description, type, is_required, default_value)
+        VALUES (#{intentId}, #{parentId}, #{name}, #{description}, #{type}, #{isRequired}, #{defaultValue})
+    </insert>
+
+    <update id="updateById" parameterType="com.jparlant.entity.FlowVariable">
+        UPDATE flow_variable
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="isRequired != null">is_required = #{isRequired},</if>
+            <if test="defaultValue != null">default_value = #{defaultValue},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM flow_variable WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByParentId">
+        DELETE FROM flow_variable WHERE parent_id = #{parentId}
+    </delete>
+
+    <select id="selectById" resultType="com.jparlant.entity.FlowVariable">
+        SELECT * FROM flow_variable WHERE id = #{id}
+    </select>
+
+    <select id="selectByIntentId" resultType="com.jparlant.entity.FlowVariable">
+        SELECT * FROM flow_variable WHERE intent_id = #{intentId} ORDER BY id ASC
+    </select>
+
+    <!-- 根据父 ID 查询子变量列表 -->
+    <select id="selectByParentId" resultType="com.jparlant.entity.FlowVariable">
+        SELECT * FROM flow_variable
+        WHERE parent_id = #{parentId}
+        ORDER BY id ASC
+    </select>
+
+</mapper>

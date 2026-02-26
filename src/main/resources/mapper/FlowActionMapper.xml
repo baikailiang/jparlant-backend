@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jparlant.mapper.FlowActionMapper">
+
+    <resultMap id="BeanWithMethodsMap" type="com.jparlant.entity.FlowActionBean">
+        <id property="id" column="bean_id"/>
+        <result property="beanName" column="bean_name"/>
+        <result property="displayName" column="bean_display_name"/>
+        <collection property="methods" ofType="com.jparlant.entity.FlowActionMethod">
+            <id property="id" column="method_id"/>
+            <result property="methodName" column="method_name"/>
+            <result property="displayName" column="method_display_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllBeansAndMethods" resultMap="BeanWithMethodsMap">
+        SELECT
+            b.id as bean_id, b.bean_name, b.display_name as bean_display_name,
+            m.id as method_id, m.method_name, m.display_name as method_display_name
+        FROM flow_action_bean b
+                 LEFT JOIN flow_action_method m ON b.id = m.bean_id
+    </select>
+
+    <select id="selectAllSchemas" resultType="com.jparlant.entity.FlowActionSchema">
+        SELECT * FROM flow_action_schema ORDER BY sort_order ASC
+    </select>
+
+</mapper>

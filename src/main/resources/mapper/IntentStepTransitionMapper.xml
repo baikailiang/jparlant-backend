@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jparlant.mapper.IntentStepTransitionMapper">
+
+    <delete id="deleteByIntentId">
+        DELETE FROM intent_step_transition WHERE intent_id = #{intentId}
+    </delete>
+
+    <insert id="batchInsert">
+        INSERT INTO intent_step_transition (
+        intent_id,
+        from_step_id,
+        to_step_id,
+        branch_code,
+        condition_json,
+        priority,
+        is_default
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.intentId},
+            #{item.fromStepId},
+            #{item.toStepId},
+            #{item.branchCode},
+            #{item.conditionJson},
+            #{item.priority},
+            #{item.isDefault}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

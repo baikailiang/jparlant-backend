@@ -1,0 +1,51 @@
+# 服务端口
+server:
+  port: 9085
+  servlet:
+    context-path: /api
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    username: myuser
+    password: mypassword
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://82.157.34.121:3306/jd?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: jd
+    password: 94bf28070f2eb677
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      # 1. 连接在池中存活的最大生命周期（强烈建议设置）
+      # MySQL默认 wait_timeout 是 8小时，但云服务器/防火墙通常是 5-30分钟就会强制断开空闲TCP。
+      # 这里设置为 10 分钟（600,000ms），确保连接在被服务端断开前，连接池先把它换成新的。
+      max-lifetime: 600000
+      # 2. 连接空闲检测时间
+      # 每隔 1 分钟（60,000ms）发一个轻量级心跳，防止被防火墙判定为空闲连接而切断
+      keepalive-time: 60000
+      # 3. 连接池中保持空闲的最长时间
+      idle-timeout: 300000
+      # 4. 连接超时时间
+      connection-timeout: 20000
+      # 5. 测试连接有效性的查询语句（MySQL 8.0+ 驱动可以不加，驱动会自动处理，旧版建议加上）
+      connection-test-query: SELECT 1
+
+  # JSON配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.jparlant.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 日志配置
+logging:
+  level:
+    com.jparlant.mapper: debug
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"

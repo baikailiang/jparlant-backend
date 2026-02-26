@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jparlant.mapper.ComplianceRuleMapper">
+
+    <resultMap id="BaseResultMap" type="com.jparlant.entity.ComplianceRule">
+        <id column="id" property="id"/>
+        <result column="agent_id" property="agentId"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="scope" property="scope"/>
+        <result column="keywords" property="keywords"/>
+        <result column="parameters" property="parameters"/>
+        <result column="condition_expr" property="conditionExpr"/>
+        <result column="blocked_response" property="blockedResponse"/>
+        <result column="categories" property="categories"/>
+        <result column="priority" property="priority"/>
+        <result column="enabled" property="enabled"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="guideline_prompt" property="guidelinePrompt"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM compliance_rules ORDER BY priority DESC, created_at DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM compliance_rules WHERE id = #{id}
+    </select>
+
+    <select id="selectByAgentId" resultMap="BaseResultMap">
+        SELECT * FROM compliance_rules WHERE agent_id = #{agentId} ORDER BY priority DESC, created_at DESC
+    </select>
+
+    <insert id="insert" parameterType="com.jparlant.entity.ComplianceRule" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO compliance_rules (
+            agent_id, name, description, scope, keywords, parameters,
+            condition_expr, blocked_response, categories, priority, enabled, guideline_prompt
+        )
+        VALUES (
+            #{agentId}, #{name}, #{description}, #{scope}, #{keywords}, #{parameters},
+            #{conditionExpr}, #{blockedResponse}, #{categories}, #{priority}, #{enabled}, #{guidelinePrompt}
+        )
+    </insert>
+
+    <update id="updateById" parameterType="com.jparlant.entity.ComplianceRule">
+        UPDATE compliance_rules
+        <set>
+            <if test="agentId != null">
+                agent_id = #{agentId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="scope != null">
+                scope = #{scope},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords},
+            </if>
+            <if test="parameters != null">
+                parameters = #{parameters},
+            </if>
+            <if test="conditionExpr != null">
+                condition_expr = #{conditionExpr},
+            </if>
+            <if test="blockedResponse != null">
+                blocked_response = #{blockedResponse},
+            </if>
+            <if test="categories != null">
+                categories = #{categories},
+            </if>
+            <if test="priority != null">
+                priority = #{priority},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+            <if test="guidelinePrompt != null">
+                guideline_prompt = #{guidelinePrompt},
+            </if>
+            <!-- 无论传不传参数，通常更新时间都会随之更新 -->
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM compliance_rules WHERE id = #{id}
+    </delete>
+
+</mapper>
