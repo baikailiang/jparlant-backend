@@ -1,6 +1,6 @@
 # JParlant Backend
 
-JParlant 管理系统后端服务，为 [jparlant-admin](https://gitee.com/sylvara/jparlant-admin) 前端项目提供 RESTful API 支持。
+JParlant 管理系统后端服务，为 **[jparlant-admin](https://github.com/baikailiang/jparlant-admin)** 前端项目提供 RESTful API 支持。
 
 ## 技术栈
 
