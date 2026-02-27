@@ -12,8 +12,7 @@ JParlant 管理系统后端服务，为 [jparlant-admin](https://gitee.com/sylva
 | MySQL | 8.x | 关系型数据库 |
 | Redis | - | 缓存及消息通知 |
 | HikariCP | - | 数据库连接池 |
-| Lombok | - | 简化代码 |
-| Jackson | - | JSON 序列化 |
+
 
 ## 快速启动
 
@@ -25,7 +24,7 @@ JParlant 管理系统后端服务，为 [jparlant-admin](https://gitee.com/sylva
 - Redis (用于缓存通知)
 
 ### 1. 数据库和表结构初始化
-
+执行 `src/main/resources/db/init.sql` 初始化脚本
 
 ### 2. 修改配置
 
@@ -65,53 +64,11 @@ java -jar target/jparlant-backend-1.0.0.jar
 
 服务启动后访问：http://localhost:9085/api/agents
 
-## 与前端项目[jparlant-admin](https://gitee.com/sylvara/jparlant-admin)配合
-
-### 架构关系
-
-```
-┌─────────────────────┐      HTTP API      ┌─────────────────────┐
-│   jparlant-admin    │  ───────────────>  │  jparlant-backend   │
-│   (Vue 前端)        │   localhost:9085   │  (Spring Boot)      │
-└─────────────────────┘                    └─────────────────────┘
-                                                    │
-                                           ┌───────┴───────┐
-                                           │               │
-                                        MySQL          Redis
-```
-
-### 前端代理配置
-
-前端项目需要配置 API 代理，将 `/api` 请求转发到后端服务：
-
-```javascript
-// vite.config.js 或 vue.config.js
-proxy: {
-  '/api': {
-    target: 'http://localhost:9085',
-    changeOrigin: true
-  }
-}
-```
 
 ### 跨域说明
 
 后端已配置 CORS 允许所有来源访问，前端可直接调用 API，无需额外处理跨域问题。
 
-## API 接口
-
-所有接口统一前缀：`/api`，返回格式：
-
-```json
-{
-  "code": 200,
-  "message": "操作成功",
-  "data": {}
-}
-```
-
-
-## 配置说明
 
 ### 核心配置项
 
@@ -123,7 +80,7 @@ proxy: {
 
 ### Redis 缓存通知
 
-后端通过 Redis Pub/Sub 发布缓存刷新通知，频道名默认：`jparlant-cache-refresh-topic`，可进行配置覆盖。
+后端通过 Redis Pub/Sub 发布缓存刷新通知，频道名默认：`jparlant-cache-refresh-topic`，可通过配置jparlant.cache.channel覆盖。
 
 **注意：如果 Redis 开启了 ACL（Redis 6.0+），请确保该用户具有 Pub/Sub 相关权限**
 
