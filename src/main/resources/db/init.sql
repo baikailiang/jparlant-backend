@@ -14,7 +14,7 @@ CREATE TABLE `intent_step` (
    `skip_to_prompt` text COMMENT '跳跃时的引导提示语',
    `core_actions_json` text COMMENT '核心业务处理器',
    `ocr_action` text COMMENT '图片识别执行器',
-   `is_direct_return` int(11) DEFAULT '1' COMMENT '是否是需要直接返回提示，不需要经过大模型回答,0否，1是',
+   `is_direct_return` int(11) DEFAULT '0' COMMENT '是否是需要直接返回提示，不需要经过大模型回答,0否，1是',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COMMENT='意图业务步骤明细表';
 

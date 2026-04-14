@@ -19,4 +19,5 @@ public class IntentStep {
     private String skipToPrompt;
     private String ocrAction;
     private String coreActionsJson;
+    private Integer isDirectReturn;
 }

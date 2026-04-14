@@ -36,12 +36,12 @@
         INSERT INTO intent_step (
             intent_id, name, description, belong_to_phase, priority, step_type,
             prompt, expected_inputs_json, validation_json, dependencies, can_skip,
-            skip_to_prompt, core_actions_json, ocr_action
+            skip_to_prompt, core_actions_json, ocr_action, is_direct_return
         )
         VALUES (
             #{intentId}, #{name}, #{description}, #{belongToPhase}, #{priority}, #{stepType},
             #{prompt}, #{expectedInputsJson}, #{validationJson}, #{dependencies}, #{canSkip},
-            #{skipToPrompt}, #{coreActionsJson}, #{ocrAction}
+            #{skipToPrompt}, #{coreActionsJson}, #{ocrAction}, #{isDirectReturn}
         )
     </insert>
 
@@ -60,7 +60,8 @@
             can_skip = #{canSkip},
             skip_to_prompt = #{skipToPrompt},
             core_actions_json = #{coreActionsJson},
-            ocr_action = #{ocrAction}
+            ocr_action = #{ocrAction},
+            is_direct_return = #{isDirectReturn}
         WHERE id = #{id}
     </update>
 
