@@ -114,4 +114,29 @@ CREATE TABLE `agent_intent` (
 ) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COMMENT='Agent意图及流程主表';
 
 
+-- ----------------------------
+-- 用户表
+-- ----------------------------
+CREATE TABLE `jparlant_user` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+    `username` varchar(50) NOT NULL COMMENT '用户名',
+    `password` varchar(255) NOT NULL COMMENT '密码',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
+    `avatar` varchar(500) DEFAULT NULL COMMENT '头像URL',
+    `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态: 0禁用, 1启用',
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='系统用户表';
+
+-- ----------------------------
+-- 默认管理员账号: admin / admin123
+-- ----------------------------
+INSERT INTO `jparlant_user` (`username`, `password`, `nickname`, `status`) VALUES ('admin', 'admin123', '管理员', 1);
+
+
+
+
+
 
